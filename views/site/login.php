@@ -17,6 +17,11 @@ $this->title = 'Login';
                 <div class="form-group">
                     <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
                 </div>
+                <div class="form-group">
+                    <p>or</p>
+            <div class="col-lg-offset-1 col-lg-11">
+                <?= Html::a('Sign Up', ['site/signup'], ['class' => 'btn btn-primary']) ?>
+            </div>
 
             <?php ActiveForm::end(); ?>
         </div>

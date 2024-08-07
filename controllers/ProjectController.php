@@ -12,12 +12,9 @@ class ProjectController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Project::find(),
-            'pagination' => [
-                'pageSize' => 20,
-            ],
+            'query' => Project::find()->where(['email' => Yii::$app->user->identity->email]),
         ]);
-
+    
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
@@ -27,10 +24,13 @@ class ProjectController extends Controller
     {
         $model = new Project();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->email = Yii::$app->user->identity->email; // Set the email to the currently logged-in user's email
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
-
+    
         return $this->render('create', [
             'model' => $model,
         ]);
